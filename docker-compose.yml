@@ -1,0 +1,24 @@
+networks:
+  caddy_net:
+    external: true
+  kuno_internal_net:
+    external: true
+    
+services:
+  kuno:
+    image: ictrun/kuno:arm64
+    container_name: kuno
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: https://${KUNO_SERVER_ADDRESS:-internal}/api
+      DB_PATH: /app/data/blog.db
+      UPLOAD_DIR: "/app/data/uploads"
+      GIN_MODE: "release"
+      NODE_ENV: "production"
+      # Add your JWT_SECRET etc.
+      JWT_SECRET: "${JWT_SECRET}" # openssl rand -hex 32
+    volumes:
+      - "${KUNO_DATA_PATH:-./kuno-data}:/app/data"
+    networks:
+      - kuno_internal_net
+      - caddy_net
