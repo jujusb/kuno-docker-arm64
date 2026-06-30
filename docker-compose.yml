@@ -1,8 +1,6 @@
 networks:
   caddy_net:
     external: true
-  kuno_internal_net:
-    external: true
     
 services:
   kuno:
@@ -18,7 +16,6 @@ services:
       # Add your JWT_SECRET etc.
       JWT_SECRET: "${JWT_SECRET}" # openssl rand -hex 32
     volumes:
-      - "${KUNO_DATA_PATH:-./kuno-data}:/app/data"
+      - "${BASE_DATA_PATH:-./data}/blog:/app/data"
     networks:
-      - kuno_internal_net
       - caddy_net
