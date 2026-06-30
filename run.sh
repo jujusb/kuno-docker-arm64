@@ -2,7 +2,7 @@
 
 if [[ $1 == "build" ]]; then
     docker buildx create --use
-    git clone https://github.com/xuemian168/kuno.git
+    #git clone https://github.com/xuemian168/kuno.git
     pushd kuno
     docker buildx build --platform linux/arm64 -t ictrun/kuno:arm64 --load .
     popd
